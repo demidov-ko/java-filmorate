@@ -1,3 +1,6 @@
+/**
+ * Пакет приложения.
+ */
 package ru.yandex.practicum.filmorate;
 
 import org.springframework.boot.SpringApplication;

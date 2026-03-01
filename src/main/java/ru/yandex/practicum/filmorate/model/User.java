@@ -1,14 +1,35 @@
+/**
+ * Пакет модели.
+ */
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
 
 import java.time.LocalDate;
 
+/**
+ * User.
+ */
 @Data
 public class User {
-    private Long id;                //— уникальный идентификатор пользователя
-    private String email;           //— электронная почта пользователя
-    private String login;        //— login пользователя
-    private String name;        //— имя пользователя
-    private LocalDate birthday; //— дата рождения пользователя
+    /**
+     * Уникальный идентификатор пользователя.
+     */
+    private Long id;
+    /**
+     * Электронная почта пользователя.
+     */
+    private String email;
+    /**
+     * Логин пользователя.
+     */
+    private String login;
+    /**
+     * Имя пользователя.
+     */
+    private String name;
+    /**
+     * Дата рождения пользователя.
+     */
+    private LocalDate birthday;
 }

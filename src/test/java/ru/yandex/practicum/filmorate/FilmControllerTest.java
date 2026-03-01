@@ -17,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class FilmControllerTest {
+    private static final int HTTP_STATUS_OK = 200;
+    private static final int HTTP_STATUS_NOT_FOUND = 500;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -34,7 +36,7 @@ class FilmControllerTest {
         // Отправляем POST‑запрос на /films
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(200, response.getStatusCodeValue(),
+        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
                 "Ожидался статус 200 для созданного фильма фильма");
 
         Film createdFilm = response.getBody();
@@ -53,7 +55,7 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(500, response.getStatusCodeValue(),
+        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
                 "Ожидался статус 500 для пустого названия");
     }
 
@@ -67,7 +69,7 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(500, response.getStatusCodeValue(),
+        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
                 "Ожидался статус 500 для описания больше 200 символов");
     }
 
@@ -81,7 +83,7 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(200, response.getStatusCodeValue(),
+        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
                 "Ожидался статус 200 для описания в 200 символов");
     }
 
@@ -95,7 +97,7 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(500, response.getStatusCodeValue(),
+        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
                 "Ожидался статус 500 для неподходящей даты релиза");
     }
 
@@ -109,7 +111,7 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(200, response.getStatusCodeValue(),
+        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
                 "Ожидался статус 200 для корректной даты релиза");
     }
 
@@ -123,7 +125,7 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(500, response.getStatusCodeValue(),
+        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
                 "Ожидался статус 500 для отрицательной продолжительности");
     }
 
@@ -151,7 +153,7 @@ class FilmControllerTest {
         ResponseEntity<Film> updateResponse = restTemplate.exchange("/films", HttpMethod.PUT,
                 new HttpEntity<>(updatedFilm), Film.class);
 
-        assertEquals(200, updateResponse.getStatusCodeValue(),
+        assertEquals(HTTP_STATUS_OK, updateResponse.getStatusCodeValue(),
                 "Ожидался статус 200 для обновленного фильма");
 
         Film actualUpdatedFilm = updateResponse.getBody();
@@ -174,7 +176,7 @@ class FilmControllerTest {
         ResponseEntity<Film> response = restTemplate.exchange("/films", HttpMethod.PUT,
                 new HttpEntity<>(film), Film.class);
 
-        assertEquals(500, response.getStatusCodeValue(),
+        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
                 "Ожидался статус 500 для несуществующего ID");
     }
 
@@ -200,7 +202,7 @@ class FilmControllerTest {
 
         ResponseEntity<Film[]> response = restTemplate.getForEntity("/films", Film[].class);
 
-        assertEquals(200, response.getStatusCodeValue(),
+        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
                 "Ожидался статус 200 при получении списка фильмов");
 
         Film[] films = response.getBody();

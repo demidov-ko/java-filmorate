@@ -1,3 +1,6 @@
+/**
+ * Пакет контроллеров приложения Filmorate.
+ */
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +15,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Slf4j
 @RestController
 @RequestMapping("/users")
@@ -21,7 +25,7 @@ public class UserController {
 
     @PostMapping
     //создание нового пользователя
-    public User create(@RequestBody User user) {
+    public User create(@RequestBody final User user) {
         log.info("Создание нового пользователя: {}", user.getLogin());
 
         // Проверка email: не null, не пустой, содержит '@'
@@ -86,7 +90,7 @@ public class UserController {
 
     @PutMapping
     //редактируем пользователя
-    public User update(@RequestBody User newUser) {
+    public User update(@RequestBody final User newUser) {
         log.info("Редактирование пользователя ID={}: {}", newUser.getId(), newUser.getLogin());
 
         if (newUser.getId() == null) {

@@ -1,3 +1,6 @@
+/**
+ * Пакет модели.
+ */
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
@@ -9,10 +12,24 @@ import java.time.LocalDate;
  */
 @Data
 public class Film {
-    private Long id;            // — уникальный идентификатор фильма
-    private String name;        //— название
-    private String description; //— описание фильма
-    private LocalDate releaseDate;//— дата релиза
-    private Long duration;   //— продолжительность фильма
-
+    /**
+     * Уникальный идентификатор фильма.
+     */
+    private Long id;
+    /**
+     * Название.
+     */
+    private String name;
+    /**
+     * Описание фильма.
+     */
+    private String description;
+    /**
+     * Дата релиза.
+     */
+    private LocalDate releaseDate;
+    /**
+     * Продолжительность фильма.
+     */
+    private Long duration;
 }
