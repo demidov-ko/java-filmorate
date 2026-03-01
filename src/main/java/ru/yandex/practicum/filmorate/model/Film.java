@@ -1,10 +1,9 @@
 /**
- * Пакет модели.
+ * Пакет моделей данных приложения Filmorate.
  */
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
-
 import java.time.LocalDate;
 
 /**

@@ -21,10 +21,15 @@ import java.util.Map;
 @RequestMapping("/users")
 public class UserController {
 
+    /**
+     * Хранилище пользователей в памяти.
+     */
     private final Map<Long, User> users = new HashMap<>();
 
+    /**
+     * Создаёт нового пользователя.
+     */
     @PostMapping
-    //создание нового пользователя
     public User create(@RequestBody final User user) {
         log.info("Создание нового пользователя: {}", user.getLogin());
 
@@ -88,8 +93,10 @@ public class UserController {
         return user;
     }
 
+    /**
+     * Обновляет существующего пользователя.
+     */
     @PutMapping
-    //редактируем пользователя
     public User update(@RequestBody final User newUser) {
         log.info("Редактирование пользователя ID={}: {}", newUser.getId(), newUser.getLogin());
 
@@ -164,8 +171,10 @@ public class UserController {
         return oldUser;
     }
 
+    /**
+     * Получает всех пользователей из хранилища.
+     */
     @GetMapping
-    //получаем всех пользователей
     public Collection<User> findAll() {
         return users.values();
     }
