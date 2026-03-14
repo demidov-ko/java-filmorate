@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.4</version>
+        <version>3.5.11</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.yandex.practicum</groupId>
@@ -47,7 +47,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.11</version>
+            <version>1.5.32</version>
         </dependency>
     </dependencies>
 
@@ -57,6 +57,21 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.6.0</version>
+
+            <!-- Чтобы checkstyle-плагин использовал новый набор правил, его необходимо сконфигурировать.
+            Для этого используется свойство config-location-->
+            <configuration>
+            <!-- Здесь вы можете указать различные настройки Checkstyle -->
+            <!-- Путь к файлу конфигурации Checkstyle -->
+                <configLocation>checkstyle.xml</configLocation>
+                <suppressionsLocation>suppressions.xml</suppressionsLocation>
+            </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
