@@ -20,9 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class UserControllerTest {
-    private static final int HTTP_STATUS_OK = 200;
-    private static final int HTTP_STATUS_NOT_FOUND = 500;
-
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -39,7 +36,7 @@ class UserControllerTest {
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
-        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
+        assertEquals(200, response.getStatusCodeValue(),
                 "Ожидался статус 200 для созданного пользователя");
 
         User createdUser = response.getBody();
@@ -51,7 +48,7 @@ class UserControllerTest {
     }
 
     @Test
-    void testCreateUser_EmptyEmail_ShouldReturn500() {
+    void testCreateUser_EmptyEmail_ShouldReturn400() {
         User user = new User();
         user.setEmail("");
         user.setLogin("user");
@@ -59,12 +56,12 @@ class UserControllerTest {
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для пустого email");
+        assertEquals(400, response.getStatusCodeValue(),
+                "Ожидался статус 400 для пустого email");
     }
 
     @Test
-    void testCreateUser_InvalidEmail_ShouldReturn500() {
+    void testCreateUser_InvalidEmail_ShouldReturn400() {
         User user = new User();
         user.setEmail("mail.ru");
         user.setLogin("user");
@@ -72,12 +69,12 @@ class UserControllerTest {
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для некорректного email");
+        assertEquals(400, response.getStatusCodeValue(),
+                "Ожидался статус 400 для некорректного email");
     }
 
     @Test
-    void testCreateUser_DuplicateEmail_ShouldReturn500() {
+    void testCreateUser_DuplicateEmail_ShouldReturn400() {
         User user1 = new User();
         user1.setEmail("mail@mail.ru");
         user1.setLogin("user1");
@@ -91,12 +88,12 @@ class UserControllerTest {
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user2, User.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для дублирующегося email");
+        assertEquals(409, response.getStatusCodeValue(),
+                "Ожидался статус 409 для дублирующегося email");
     }
 
     @Test
-    void testCreateUser_EmptyLogin_ShouldReturn500() {
+    void testCreateUser_EmptyLogin_ShouldReturn400() {
         User user = new User();
         user.setEmail("mail@mail.ru");
         user.setLogin("");
@@ -104,12 +101,12 @@ class UserControllerTest {
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для пустого login");
+        assertEquals(400, response.getStatusCodeValue(),
+                "Ожидался статус 400 для пустого login");
     }
 
     @Test
-    void testCreateUser_LoginWithSpaces_ShouldReturn500() {
+    void testCreateUser_LoginWithSpaces_ShouldReturn400() {
         User user = new User();
         user.setEmail("mail@mail.ru");
         user.setLogin("user with spaces");
@@ -117,12 +114,12 @@ class UserControllerTest {
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для login с пробелами");
+        assertEquals(400, response.getStatusCodeValue(),
+                "Ожидался статус 400 для login с пробелами");
     }
 
     @Test
-    void testCreateUser_NullBirthday_ShouldReturn500() {
+    void testCreateUser_NullBirthday_ShouldReturn400() {
         User user = new User();
         user.setEmail("mail@mail.ru");
         user.setLogin("user");
@@ -130,12 +127,12 @@ class UserControllerTest {
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для отсутствующей даты рождения");
+        assertEquals(400, response.getStatusCodeValue(),
+                "Ожидался статус 400 для отсутствующей даты рождения");
     }
 
     @Test
-    void testCreateUser_FutureBirthday_ShouldReturn500() {
+    void testCreateUser_FutureBirthday_ShouldReturn400() {
         User user = new User();
         user.setEmail("mail@mail.ru");
         user.setLogin("user");
@@ -144,8 +141,8 @@ class UserControllerTest {
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для даты рождения в будущем");
+        assertEquals(400, response.getStatusCodeValue(),
+                "Ожидался статус 400 для даты рождения в будущем");
     }
 
     @Test
@@ -158,7 +155,7 @@ class UserControllerTest {
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
-        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCodeValue());
 
         User createdUser = response.getBody();
         assertEquals("login", createdUser.getName(),
@@ -190,7 +187,7 @@ class UserControllerTest {
                 new HttpEntity<>(updatedUser), User.class);
 
 
-        assertEquals(HTTP_STATUS_OK, updateResponse.getStatusCodeValue(),
+        assertEquals(200, updateResponse.getStatusCodeValue(),
                 "Ожидался статус 200 для обновлённого пользователя");
 
         User actualUpdatedUser = updateResponse.getBody();
@@ -202,7 +199,7 @@ class UserControllerTest {
     }
 
     @Test
-    void testUpdateUser_DuplicateEmail_ShouldReturn500() {
+    void testUpdateUser_DuplicateEmail_ShouldReturn409() {
         User user1 = new User();
         user1.setEmail("mail1@mail.ru");
         user1.setLogin("user1");
@@ -223,8 +220,8 @@ class UserControllerTest {
         ResponseEntity<User> updateResponse = restTemplate.exchange("/users", HttpMethod.PUT,
                 new HttpEntity<>(createdUser1), User.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, updateResponse.getStatusCodeValue(),
-                "Ожидался статус 500 для дублирующегося email при обновлении");
+        assertEquals(409, updateResponse.getStatusCodeValue(),
+                "Ожидался статус 409 для дублирующегося email при обновлении");
     }
 
 //GET
@@ -247,7 +244,7 @@ class UserControllerTest {
 
         ResponseEntity<User[]> response = restTemplate.getForEntity("/users", User[].class);
 
-        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
+        assertEquals(200, response.getStatusCodeValue(),
                 "Ожидался статус 200 при получении списка пользователей");
 
         User[] users = response.getBody();
@@ -269,7 +266,7 @@ class UserControllerTest {
     void testGetAllUsers_EmptyList_ShouldReturn200() {
         ResponseEntity<User[]> response = restTemplate.getForEntity("/users", User[].class);
 
-        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
+        assertEquals(200, response.getStatusCodeValue(),
                 "Ожидался статус 200 при получении пустого списка пользователей");
 
         User[] users = response.getBody();

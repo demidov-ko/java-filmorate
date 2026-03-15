@@ -5,25 +5,11 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
+
 public class Film {
-    /**
-     * Уникальный идентификатор фильма.
-     */
-    private Long id;
-    /**
-     * Название.
-     */
-    private String name;
-    /**
-     * Описание фильма.
-     */
-    private String description;
-    /**
-     * Дата релиза.
-     */
-    private LocalDate releaseDate;
-    /**
-     * Продолжительность фильма.
-     */
-    private Long duration;
+    private Long id; //Уникальный идентификатор фильма
+    private String name; //Название
+    private String description; //Описание фильма
+    private LocalDate releaseDate; //Дата релиза
+    private Long duration; //Продолжительность фильма
 }
