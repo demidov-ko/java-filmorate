@@ -34,7 +34,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         return film;
     }
 
-    //редактирует пользователя
+    //редактирует фильм
     @Override
     public Film update(Film newFilm) {
         log.info("Полная замена фильма ID={}: {}", newFilm.getId(), newFilm.getName());
@@ -55,7 +55,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         return newFilm;
     }
 
-    //получаем всех пользователей
+    //получаем все фильмы
     @Override
     public Collection<Film> findAll() {
         log.trace("Запрос всех фильмов, найдено: {}", films.size());

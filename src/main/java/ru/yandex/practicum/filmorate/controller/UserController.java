@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.Collection;
 
@@ -13,30 +12,29 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserStorage userStorage;
     private final UserService userService;
 
     //Создаёт нового пользователя
     @PostMapping
     public User create(@RequestBody final User user) {
-        return userStorage.create(user);
+        return userService.create(user);
     }
 
     //Обновляет существующего пользователя
     @PutMapping
     public User update(@RequestBody final User newUser) {
-        return userStorage.update(newUser);
+        return userService.update(newUser);
     }
 
     //Получает всех пользователей из хранилища
     @GetMapping
     public Collection<User> findAll() {
-        return userStorage.findAll();
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")
     public User findById(@PathVariable Long id) {
-        return userStorage.findById(id);
+        return userService.findById(id);
     }
 
     //---------------------------------------------------------------------

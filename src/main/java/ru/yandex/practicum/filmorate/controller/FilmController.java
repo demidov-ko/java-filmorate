@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,30 +14,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilmController {
 
-    private final FilmStorage filmStorage;
     private final FilmService filmService;
 
     //Создаёт новый фильм
     @PostMapping
     public final Film create(@RequestBody final Film film) {
-        return filmStorage.create(film);
+        return filmService.create(film);
     }
 
-    //Редактирует пользователя
+    //Редактирует фильм
     @PutMapping
     public Film update(@RequestBody final Film newFilm) {
-        return filmStorage.update(newFilm);
+        return filmService.update(newFilm);
     }
 
-    //Получаем всех пользователей
+    //Получаем все фильмы
     @GetMapping
     public Collection<Film> findAll() {
-        return filmStorage.findAll();
+        return filmService.findAll();
     }
 
     @GetMapping("/{id}")
     public Film findById(@PathVariable Long id) {
-        return filmStorage.findById(id);
+        return filmService.findById(id);
     }
 
     //---------------------------------------------------------------------

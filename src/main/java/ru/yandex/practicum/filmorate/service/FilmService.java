@@ -20,6 +20,22 @@ public class FilmService {
     private final UserStorage userStorage;
     private final Map<Long, Set<Long>> filmsLike = new HashMap<>();
 
+    public Film create(Film film) {
+        return filmStorage.create(film);
+    }
+
+    public Film update(Film film) {
+        return filmStorage.update(film);
+    }
+
+    public Collection<Film> findAll() {
+        return filmStorage.findAll();
+    }
+
+    public Film findById(Long id) {
+        return filmStorage.findById(id);
+    }
+
     //добавляет лайк фильму
     public void addLike(Long filmId, Long userId) {
         log.debug("Попытка поставить лайк фильму с id {} пользователем с id {}", filmId, userId);
