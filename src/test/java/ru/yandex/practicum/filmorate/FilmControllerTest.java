@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class FilmControllerTest {
-    private static final int HTTP_STATUS_OK = 200;
-    private static final int HTTP_STATUS_NOT_FOUND = 500;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -39,7 +37,7 @@ class FilmControllerTest {
         // Отправляем POST‑запрос на /films
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
+        assertEquals(200, response.getStatusCodeValue(),
                 "Ожидался статус 200 для созданного фильма фильма");
 
         Film createdFilm = response.getBody();
@@ -49,7 +47,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void testCreateFilm_EmptyName_ShouldReturn500() {
+    void testCreateFilm_EmptyName_ShouldReturn400() {
         Film film = new Film();
         film.setName("");
         film.setDescription("Описание");
@@ -58,12 +56,12 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для пустого названия");
+        assertEquals(400, response.getStatusCodeValue(),
+                "Ожидался статус 400 для пустого названия");
     }
 
     @Test
-    void testCreateFilm_DescriptionOver200_ShouldReturn500() {
+    void testCreateFilm_DescriptionOver200_ShouldReturn400() {
         Film film = new Film();
         film.setName("Фильм");
         film.setDescription("Х".repeat(201));
@@ -72,8 +70,8 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для описания больше 200 символов");
+        assertEquals(400, response.getStatusCodeValue(),
+                "Ожидался статус 400 для описания больше 200 символов");
     }
 
     @Test
@@ -86,12 +84,12 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
+        assertEquals(200, response.getStatusCodeValue(),
                 "Ожидался статус 200 для описания в 200 символов");
     }
 
     @Test
-    void testCreateFilm_InvalidReleaseDate_ShouldReturn500() {
+    void testCreateFilm_InvalidReleaseDate_ShouldReturn400() {
         Film film = new Film();
         film.setName("Фильм");
         film.setDescription("Описание");
@@ -100,8 +98,8 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для неподходящей даты релиза");
+        assertEquals(400, response.getStatusCodeValue(),
+                "Ожидался статус 400 для неподходящей даты релиза");
     }
 
     @Test
@@ -114,12 +112,12 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
+        assertEquals(200, response.getStatusCodeValue(),
                 "Ожидался статус 200 для корректной даты релиза");
     }
 
     @Test
-    void testCreateFilm_InValidDuration_ShouldReturn500() {
+    void testCreateFilm_InValidDuration_ShouldReturn400() {
         Film film = new Film();
         film.setName("Фильм");
         film.setDescription("Описание");
@@ -128,8 +126,8 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для отрицательной продолжительности");
+        assertEquals(400, response.getStatusCodeValue(),
+                "Ожидался статус 400 для отрицательной продолжительности");
     }
 
 //PUT
@@ -156,7 +154,7 @@ class FilmControllerTest {
         ResponseEntity<Film> updateResponse = restTemplate.exchange("/films", HttpMethod.PUT,
                 new HttpEntity<>(updatedFilm), Film.class);
 
-        assertEquals(HTTP_STATUS_OK, updateResponse.getStatusCodeValue(),
+        assertEquals(200, updateResponse.getStatusCodeValue(),
                 "Ожидался статус 200 для обновленного фильма");
 
         Film actualUpdatedFilm = updateResponse.getBody();
@@ -168,7 +166,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void testUpdateFilm_NonExistentId_ShouldReturn500() {
+    void testUpdateFilm_NonExistentId_ShouldReturn404() {
         Film film = new Film();
         film.setId(9999L);
         film.setName("Фильм с несуществующим ID");
@@ -179,8 +177,8 @@ class FilmControllerTest {
         ResponseEntity<Film> response = restTemplate.exchange("/films", HttpMethod.PUT,
                 new HttpEntity<>(film), Film.class);
 
-        assertEquals(HTTP_STATUS_NOT_FOUND, response.getStatusCodeValue(),
-                "Ожидался статус 500 для несуществующего ID");
+        assertEquals(404, response.getStatusCodeValue(),
+                "Ожидался статус 404 для несуществующего ID");
     }
 
 //GET
@@ -205,7 +203,7 @@ class FilmControllerTest {
 
         ResponseEntity<Film[]> response = restTemplate.getForEntity("/films", Film[].class);
 
-        assertEquals(HTTP_STATUS_OK, response.getStatusCodeValue(),
+        assertEquals(200, response.getStatusCodeValue(),
                 "Ожидался статус 200 при получении списка фильмов");
 
         Film[] films = response.getBody();

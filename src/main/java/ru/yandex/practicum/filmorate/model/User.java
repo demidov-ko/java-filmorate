@@ -6,24 +6,10 @@ import java.time.LocalDate;
 
 @Data
 public class User {
-    /**
-     * Уникальный идентификатор пользователя.
-     */
-    private Long id;
-    /**
-     * Электронная почта пользователя.
-     */
-    private String email;
-    /**
-     * Логин пользователя.
-     */
-    private String login;
-    /**
-     * Имя пользователя.
-     */
-    private String name;
-    /**
-     * Дата рождения пользователя.
-     */
-    private LocalDate birthday;
+
+    private Long id; //Уникальный идентификатор пользователя
+    private String email; //Электронная почта пользователя
+    private String login; //Логин пользователя
+    private String name; //Имя пользователя
+    private LocalDate birthday; //Дата рождения пользователя
 }
