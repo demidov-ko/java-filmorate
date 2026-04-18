@@ -19,7 +19,7 @@ public class FilmRepository extends BaseRepository<Film> {
 
     private static final String FIND_BY_ID = "SELECT * FROM films WHERE id = ?";
 
-    private static final String INSERT = """ 
+    private static final String INSERT = """
             INSERT INTO films(name, description, release_date, duration, mpa_id)
             VALUES (?, ?, ?, ?, ?)
             """;
