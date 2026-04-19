@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.yandex.practicum.filmorate.dal.RatingRepository;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Mpa;
+import ru.yandex.practicum.filmorate.service.RatingService;
 
 import java.util.List;
 
@@ -16,16 +15,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RatingController {
 
-    private final RatingRepository ratingRepository;
+    private final RatingService ratingService;
 
     @GetMapping
     public List<Mpa> getAll() {
-        return ratingRepository.findAll();
+        return ratingService.getRatings();
     }
 
     @GetMapping("/{id}")
-    public Mpa getById(@PathVariable long id) {
-        return ratingRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Рейтинг не найден"));
+    public Mpa getById(@PathVariable int id) {
+        return ratingService.getRatingById(id);
     }
 }

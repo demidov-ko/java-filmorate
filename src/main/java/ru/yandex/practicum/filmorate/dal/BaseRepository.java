@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import ru.yandex.practicum.filmorate.exception.InternalServerException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -40,7 +41,7 @@ public class BaseRepository<T> {
         int rowsUpdated = jdbc.update(query, params);
         //если ни одна строка не будет обновлена в результате выполнения запроса, то возникнет исключение
         if (rowsUpdated == 0) {
-            throw new InternalServerException("Не удалось обновить данные");
+            throw new NotFoundException("Объект для обновления не найден");
         }
     }
 
